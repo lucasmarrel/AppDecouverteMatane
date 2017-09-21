@@ -1,4 +1,4 @@
-package evenements.informatique.cqmatane.qc.ca.appdecouvertematane;
+package ca.qc.cgmatane.informatique.appdecouvertematane;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,4 +1,4 @@
-package evenements.informatique.cqmatane.qc.ca.appdecouvertematane;
+package ca.qc.cgmatane.informatique.appdecouvertematane;
 
 import org.junit.Test;
 

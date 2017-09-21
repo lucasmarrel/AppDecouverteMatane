@@ -1,4 +1,4 @@
-package evenements.informatique.cqmatane.qc.ca.appdecouvertematane;
+package ca.qc.cgmatane.informatique.appdecouvertematane;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

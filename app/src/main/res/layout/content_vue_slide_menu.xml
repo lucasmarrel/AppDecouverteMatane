@@ -8,4 +8,11 @@
     tools:context="ca.qc.cgmatane.informatique.appdecouvertematane.vue.VueSlideMenu"
     tools:showIn="@layout/app_bar_vue_slide_menu">
 
+    <LinearLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="384dp"
+        android:layout_height="513dp"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="0dp"></LinearLayout>
 </android.support.constraint.ConstraintLayout>

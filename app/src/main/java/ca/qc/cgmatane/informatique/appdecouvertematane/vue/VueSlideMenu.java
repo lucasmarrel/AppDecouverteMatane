@@ -43,6 +43,11 @@ public class VueSlideMenu extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (savedInstanceState == null) {
+            navigationView.getMenu().performIdentifierAction(R.id.nav_googlemap, 0);
+            navigationView.setCheckedItem(R.id.nav_googlemap);
+        }
     }
 
     @Override

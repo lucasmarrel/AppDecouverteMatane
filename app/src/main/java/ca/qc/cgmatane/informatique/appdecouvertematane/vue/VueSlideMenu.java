@@ -92,15 +92,11 @@ public class VueSlideMenu extends AppCompatActivity
             NavigationFragment navigationFragment = new NavigationFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.mainLayout, navigationFragment).commit();
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_scan) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_pictures) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_parametres) {
 
         }
 

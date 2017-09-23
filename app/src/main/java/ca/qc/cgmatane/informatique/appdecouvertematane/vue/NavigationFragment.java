@@ -3,6 +3,9 @@ package ca.qc.cgmatane.informatique.appdecouvertematane.vue;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -54,20 +57,27 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-
-        LatLng localisation = new LatLng(45, 50);
-        mMap.addMarker(new MarkerOptions().position(localisation).title("Cegep de Matane"));
-
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(localisation.latitude, localisation.longitude))      // Sets the center of the map to location user
-                .zoom(15)                   // Sets the zoom
-                .bearing(0)                // Sets the orientation of the camera to east
-                .tilt(0)                   // Sets the tilt of the camera to 30 degrees
-                .build();                   // Creates a CameraPosition from the builder
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
+
             mMap.setMyLocationEnabled(true);
+            
+            LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+
+            Location myLocation = locationManager.getLastKnownLocation(locationManager
+                    .getBestProvider(criteria, false));
+            double latitude = myLocation.getLatitude();
+            double longitude = myLocation.getLongitude();
+
+            LatLng localisation = new LatLng(latitude, longitude);
+
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(new LatLng(localisation.latitude, localisation.longitude))      // Sets the center of the map to myLocation user
+                    .zoom(15)                   // Sets the zoom
+                    .bearing(0)                // Sets the orientation of the camera to east
+                    .tilt(0)                   // Sets the tilt of the camera to 30 degrees
+                    .build();                   // Creates a CameraPosition from the builder
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             return;
         }
 

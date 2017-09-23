@@ -13,7 +13,7 @@
         android:layout_width="369dp"
         android:layout_height="553dp"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        tools:layout_editor_absoluteY="5dp">
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

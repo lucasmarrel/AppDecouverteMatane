@@ -1,5 +1,11 @@
 package ca.qc.cgmatane.informatique.appdecouvertematane.vue;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,11 +19,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import ca.qc.cgmatane.informatique.appdecouvertematane.R;
 
 public class VueSlideMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private final static int MY_PERMISSION_FINE_LOCATION = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +34,6 @@ public class VueSlideMenu extends AppCompatActivity
         setContentView(R.layout.vue_slide_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -89,9 +89,16 @@ public class VueSlideMenu extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_googlemap) {
+
             NavigationFragment navigationFragment = new NavigationFragment();
+
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.mainLayout, navigationFragment).commit();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_FINE_LOCATION);
+            }
+
         } else if (id == R.id.nav_scan) {
 
         } else if (id == R.id.nav_pictures) {
@@ -103,5 +110,21 @@ public class VueSlideMenu extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case MY_PERMISSION_FINE_LOCATION:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(getApplicationContext(),"L'application a besoin de la permission de localisation pour fonctionner",Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                }
+        }
+
     }
 }

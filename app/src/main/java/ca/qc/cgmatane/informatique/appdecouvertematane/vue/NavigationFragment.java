@@ -1,8 +1,12 @@
 package ca.qc.cgmatane.informatique.appdecouvertematane.vue;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +46,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SupportMapFragment mapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
@@ -50,17 +54,31 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng cegepMatane = new LatLng(48.841189, -67.497412);
-        mMap.addMarker(new MarkerOptions().position(cegepMatane).title("Cegep de Matane"));
+
+        LatLng localisation = new LatLng(45, 50);
+        mMap.addMarker(new MarkerOptions().position(localisation).title("Cegep de Matane"));
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(cegepMatane.latitude, cegepMatane.longitude))      // Sets the center of the map to location user
+                .target(new LatLng(localisation.latitude, localisation.longitude))      // Sets the center of the map to location user
                 .zoom(15)                   // Sets the zoom
                 .bearing(0)                // Sets the orientation of the camera to east
                 .tilt(0)                   // Sets the tilt of the camera to 30 degrees
                 .build();                   // Creates a CameraPosition from the builder
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
+            mMap.setMyLocationEnabled(true);
+            return;
+        }
+
+
+
+
+
+
     }
+
+
+
+
 }

@@ -100,6 +100,9 @@ public class VueSlideMenu extends AppCompatActivity
             }
 
         } else if (id == R.id.nav_scan) {
+            ScanFragment scanFragment = new ScanFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.mainLayout, scanFragment).commit();
 
         } else if (id == R.id.nav_pictures) {
 

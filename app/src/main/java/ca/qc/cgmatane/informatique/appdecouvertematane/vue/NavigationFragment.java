@@ -60,16 +60,18 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback {
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
 
             mMap.setMyLocationEnabled(true);
-            
-            LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-            Criteria criteria = new Criteria();
 
-            Location myLocation = locationManager.getLastKnownLocation(locationManager
-                    .getBestProvider(criteria, false));
-            double latitude = myLocation.getLatitude();
-            double longitude = myLocation.getLongitude();
+//            LocationManager locationManager = (LocationManager)
+//                    getActivity().getSystemService(Context.LOCATION_SERVICE);
+//            Criteria criteria = new Criteria();
+//
+//            Location location = locationManager.getLastKnownLocation(locationManager
+//                    .getBestProvider(criteria, false));
+//            double latitude = location.getLatitude();
+//            double longitude = location.getLongitude();
 
-            LatLng localisation = new LatLng(latitude, longitude);
+            LatLng localisation = new LatLng(500, 500);
+            mMap.addMarker(new MarkerOptions().position(localisation).title("Cegep de Matane"));
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(localisation.latitude, localisation.longitude))      // Sets the center of the map to myLocation user

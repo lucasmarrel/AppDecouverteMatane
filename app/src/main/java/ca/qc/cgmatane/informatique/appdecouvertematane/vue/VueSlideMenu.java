@@ -1,6 +1,7 @@
 package ca.qc.cgmatane.informatique.appdecouvertematane.vue;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -20,6 +21,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import ca.qc.cgmatane.informatique.appdecouvertematane.R;
 
@@ -129,5 +133,31 @@ public class VueSlideMenu extends AppCompatActivity
                 }
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
+        if(result!=null){
+            if(result.getContents()==null){
+                Toast.makeText(this,"Vous avez annulé le scan", Toast.LENGTH_LONG).show();
+            }
+            else{
+                String resultat = result.getContents().toString();
+                Toast.makeText(this,resultat,Toast.LENGTH_LONG).show();
+//                if(resultat.compareTo("appmatane2369856")==0){
+//                    Toast.makeText(this,"QR code correct",Toast.LENGTH_LONG).show();
+//                }
+//                else{
+//                    Toast.makeText(this,"QR code incorrect\nRéesayez",Toast.LENGTH_LONG).show();
+//                }
+
+            }
+        }
+        else{
+            super.onActivityResult(requestCode,resultCode,data);
+        }
     }
 }

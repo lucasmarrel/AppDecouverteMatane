@@ -32,6 +32,7 @@ public class VueSlideMenu extends AppCompatActivity
 
     private final static int MY_PERMISSION_FINE_LOCATION = 101;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,14 +140,15 @@ public class VueSlideMenu extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
-        if(result!=null){
-            if(result.getContents()==null){
-                Toast.makeText(this,"Vous avez annulé le scan", Toast.LENGTH_LONG).show();
-            }
-            else{
-                String resultat = result.getContents().toString();
-                Toast.makeText(this,resultat,Toast.LENGTH_LONG).show();
+        if (requestCode == IntentIntegrator.REQUEST_CODE) {
+
+            IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            if (result != null) {
+                if (result.getContents() == null) {
+                    Toast.makeText(this, "Vous avez annulé le scan", Toast.LENGTH_LONG).show();
+                } else {
+                    String resultat = result.getContents().toString();
+                    Toast.makeText(this, resultat, Toast.LENGTH_LONG).show();
 //                if(resultat.compareTo("appmatane2369856")==0){
 //                    Toast.makeText(this,"QR code correct",Toast.LENGTH_LONG).show();
 //                }
@@ -154,10 +156,11 @@ public class VueSlideMenu extends AppCompatActivity
 //                    Toast.makeText(this,"QR code incorrect\nRéesayez",Toast.LENGTH_LONG).show();
 //                }
 
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
             }
         }
-        else{
-            super.onActivityResult(requestCode,resultCode,data);
-        }
+
     }
 }

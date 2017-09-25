@@ -21,7 +21,9 @@ import ca.qc.cgmatane.informatique.appdecouvertematane.R;
  * A simple {@link Fragment} subclass.
  */
 public class ScanFragment extends Fragment {
+
     protected Button boutonScanner;
+    public final static int ACTION_SCANNER = 1;
 
 
     public ScanFragment() {
@@ -65,9 +67,4 @@ public class ScanFragment extends Fragment {
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-    }
 }

@@ -4,7 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -25,12 +28,16 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.File;
+
 import ca.qc.cgmatane.informatique.appdecouvertematane.R;
 
 public class VueSlideMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private final static int MY_PERMISSION_FINE_LOCATION = 101;
+    private final static int ACTION_PHOTO_CAMERA = 1;
+
 
 
     @Override
@@ -148,18 +155,32 @@ public class VueSlideMenu extends AppCompatActivity
                 } else {
                     String resultat = result.getContents().toString();
                     Toast.makeText(this, resultat, Toast.LENGTH_LONG).show();
-//                if(resultat.compareTo("appmatane2369856")==0){
-//                    Toast.makeText(this,"QR code correct",Toast.LENGTH_LONG).show();
-//                }
-//                else{
-//                    Toast.makeText(this,"QR code incorrect\nRéesayez",Toast.LENGTH_LONG).show();
-//                }
-
+                    startCamera(resultat);
                 }
             } else {
                 super.onActivityResult(requestCode, resultCode, data);
             }
         }
 
+    }
+
+    protected void startCamera(String fileName) {
+        String folderPath = Environment.getExternalStorageDirectory() + "/GallerieMatane";
+        File folder = new File(folderPath);
+        if (!folder.exists()) {
+            File wallpaperDirectory = new File(folderPath);
+            wallpaperDirectory.mkdirs();
+        }
+
+        File photo = new File(folderPath, fileName +".jpg" );
+
+        if (photo != null) {
+
+            Uri relativePath = Uri.fromFile(photo);
+            Intent intent = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, relativePath);
+            startActivityForResult(intent, ACTION_PHOTO_CAMERA);
+
+        }
     }
 }

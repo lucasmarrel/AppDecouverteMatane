@@ -10,10 +10,10 @@
 
     <RelativeLayout
         android:id="@+id/mainLayout"
-        android:layout_width="369dp"
-        android:layout_height="553dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="5dp">
+        android:layout_width="371dp"
+        android:layout_height="580dp"
+        tools:layout_editor_absoluteX="7dp"
+        tools:layout_editor_absoluteY="6dp">
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

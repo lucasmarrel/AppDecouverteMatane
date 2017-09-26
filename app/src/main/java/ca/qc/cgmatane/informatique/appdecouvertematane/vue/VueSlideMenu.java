@@ -28,7 +28,7 @@ import com.google.zxing.integration.android.IntentResult;
 import ca.qc.cgmatane.informatique.appdecouvertematane.R;
 
 public class VueSlideMenu extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private final static int MY_PERMISSION_FINE_LOCATION = 101;
 
@@ -123,10 +123,9 @@ public class VueSlideMenu extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         switch (requestCode) {
             case MY_PERMISSION_FINE_LOCATION:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         Toast.makeText(getApplicationContext(),"L'application a besoin de la permission de localisation pour fonctionner",Toast.LENGTH_LONG).show();
                         finish();

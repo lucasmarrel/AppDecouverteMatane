@@ -161,6 +161,13 @@ public class VueSlideMenu extends AppCompatActivity
                 super.onActivityResult(requestCode, resultCode, data);
             }
         }
+        else if (requestCode == ACTION_PHOTO_CAMERA) {
+            IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            if (result == null) {
+                Toast.makeText(this, "Vous devez prendre une photo pour valider l'emplacement", Toast.LENGTH_LONG).show();
+
+            }
+        }
 
     }
 

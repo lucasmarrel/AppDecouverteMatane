@@ -18,8 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_vue_slide_menu"
+        app:itemTextAppearance="@style/TextAppearance.AppCompat.Caption"
         app:menu="@menu/vue_slide_menu_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

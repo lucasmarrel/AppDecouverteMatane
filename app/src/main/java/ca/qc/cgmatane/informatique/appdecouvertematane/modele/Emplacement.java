@@ -1,5 +1,9 @@
 package ca.qc.cgmatane.informatique.appdecouvertematane.modele;
 
+import android.location.Location;
+
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by 1732986 on 2017-09-21.
  */
@@ -54,6 +58,11 @@ public class Emplacement
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public LatLng getLocation(){
+        LatLng coordonnees = new LatLng(longitude,latitude);
+        return  coordonnees;
     }
 
     @Override

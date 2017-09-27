@@ -8,12 +8,16 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,8 +25,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.vision.barcode.Barcode;
+
+import java.util.List;
 
 import ca.qc.cgmatane.informatique.appdecouvertematane.R;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,40 +66,59 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             mMap.setMyLocationEnabled(true);
 
-//            LocationManager locationManager = (LocationManager)
-//                    getActivity().getSystemService(Context.LOCATION_SERVICE);
-//            Criteria criteria = new Criteria();
-//
-//            Location location = locationManager.getLastKnownLocation(locationManager
-//                    .getBestProvider(criteria, false));
-//            double latitude = location.getLatitude();
-//            double longitude = location.getLongitude();
+            Location location = getLastKnownLocation();
 
-            LatLng localisation = new LatLng(500, 500);
-            mMap.addMarker(new MarkerOptions().position(localisation).title("Cegep de Matane"));
+            if (location != null) {
 
-//            CameraPosition cameraPosition = new CameraPosition.Builder()
-//                    .target(new LatLng(localisation.latitude, localisation.longitude))      // Sets the center of the map to myLocation user
-//                    .zoom(15)                   // Sets the zoom
-//                    .bearing(0)                // Sets the orientation of the camera to east
-//                    .tilt(0)                   // Sets the tilt of the camera to 30 degrees
-//                    .build();                   // Creates a CameraPosition from the builder
-//            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-            return;
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+
+                LatLng localisation = new LatLng(latitude, longitude);
+//            mMap.addMarker(new MarkerOptions().position(localisation).title("Cegep de Matane"));
+
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(new LatLng(localisation.latitude, localisation.longitude))      // Sets the center of the map to myLocation user
+                        .zoom(15)                   // Sets the zoom
+                        .bearing(0)                // Sets the orientation of the camera to east
+                        .tilt(0)                   // Sets the tilt of the camera to 30 degrees
+                        .build();                   // Creates a CameraPosition from the builder
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            } else {
+                Toast.makeText(getActivity(), "Veuillez activer la localisation", Toast.LENGTH_LONG).show();
+            }
+
         }
-
-
-
-
-
 
     }
 
+    private Location getLastKnownLocation() {
+        LocationManager mLocationManager;
+        Location bestLocation = null;
+
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
+            mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+            List<String> providers = mLocationManager.getProviders(true);
+
+            for (String provider : providers) {
+
+                Location l = mLocationManager.getLastKnownLocation(provider);
+                if (l == null) {
+                    continue;
+                }
+                if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                    // Found best last known location: %s", l);
+                    bestLocation = l;
+                }
+            }
+
+        }
 
 
+        return bestLocation;
+    }
 
 }

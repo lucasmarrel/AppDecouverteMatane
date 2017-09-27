@@ -46,7 +46,7 @@ public class BaseDeDonnees extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
-        
+
 //        String DETRUIRE_TABLE_EMPLACEMENT = "drop table evenement";
 //        db.execSQL(DETRUIRE_TABLE_EMPLACEMENT);
 

@@ -132,10 +132,10 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new android.location.LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
-                        double latitute = location.getLatitude();
-                        double longitude = location.getLongitude();
-                        LatLng latLng = new LatLng(latitute,longitude);
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,mMap.getCameraPosition().zoom));
+//                        double latitute = location.getLatitude();
+//                        double longitude = location.getLongitude();
+//                        LatLng latLng = new LatLng(latitute,longitude);
+//                        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                     }
 
                     @Override
@@ -158,10 +158,10 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new android.location.LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
-                        double latitute = location.getLatitude();
-                        double longitude = location.getLongitude();
-                        LatLng latLng = new LatLng(latitute,longitude);
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,mMap.getCameraPosition().zoom));
+//                        double latitute = location.getLatitude();
+//                        double longitude = location.getLongitude();
+//                        LatLng latLng = new LatLng(latitute,longitude);
+//                        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                     }
 
                     @Override

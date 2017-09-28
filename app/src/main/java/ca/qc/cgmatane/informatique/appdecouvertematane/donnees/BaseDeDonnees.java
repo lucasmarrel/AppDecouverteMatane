@@ -73,12 +73,12 @@ public class BaseDeDonnees extends SQLiteOpenHelper {
     @Override
     public void onOpen(SQLiteDatabase db) {
 
-//        String DELETE = "delete from evenement where 1 = 1";
+//        String DELETE = "delete from emplacement where 1 = 1";
 //        db.execSQL(DELETE);
 //
-//        String INSERT_1 = "insert into evenement(titre, lieu, date) VALUES(\"RDV Dentiste\",\"45 rue Gustave Eiffel\",\"2018-12-26 14:30:00\")";
-//        String INSERT_2 = "insert into evenement(titre, lieu, date) VALUES(\"RDV Coiffeur\",\"44 avenue Lucas Marrel\",\"2016-09-07 20:45:00\")";
-//        String INSERT_3 = "insert into evenement(titre, lieu, date, description) VALUES(\"Chercher enfants\",\"22 rue des Champs\",\"2013-05-05 13:58:00\",\"Penser a apporter le goûter\")";
+//        String INSERT_1 = "insert into emplacement(nom, latitude, longitude) VALUES(\"IGA\",48.852337, -67.512331)";
+//        String INSERT_2 = "insert into emplacement(nom, latitude, longitude) VALUES(\"Cinema Gaiete 425\",48.845218, -67.535614)";
+//        String INSERT_3 = "insert into emplacement(nom, latitude, longitude) VALUES(\"Walmart\",48.843711, -67.556267)";
 //
 //        db.execSQL(INSERT_1);
 //        db.execSQL(INSERT_2);

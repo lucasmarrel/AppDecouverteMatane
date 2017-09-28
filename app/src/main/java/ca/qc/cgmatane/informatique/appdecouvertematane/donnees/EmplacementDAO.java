@@ -55,7 +55,7 @@ public class EmplacementDAO {
                 emplacement = new Emplacement(id, nom, latitude, longitude);
 
                 listeEmplacements.add(emplacement);
-                
+
             }
         }
 

@@ -31,9 +31,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.vision.barcode.Barcode;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import ca.qc.cgmatane.informatique.appdecouvertematane.R;
+import ca.qc.cgmatane.informatique.appdecouvertematane.donnees.EmplacementDAO;
+import ca.qc.cgmatane.informatique.appdecouvertematane.modele.Emplacement;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -43,6 +46,9 @@ import static android.content.Context.LOCATION_SERVICE;
 public class NavigationFragment extends Fragment implements OnMapReadyCallback{
 
     private GoogleMap mMap;
+    private EmplacementDAO emplacementDAO;
+    private List<Emplacement> listeEmplacement;
+    private Emplacement emplacement;
 
     public NavigationFragment() {
         // Required empty public constructor
@@ -54,6 +60,10 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_navigation, container, false);
+
+        emplacementDAO  = new EmplacementDAO();
+        listeEmplacement = new ArrayList<>();
+        emplacement = new Emplacement();
 
         return v;
     }
@@ -78,16 +88,12 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
 
             if (location != null) {
 
+                positionnementEmplacements();
+
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
 
                 LatLng localisation = new LatLng(latitude, longitude);
-                LatLng iga = new LatLng(48.852337, -67.512331);
-                mMap.addMarker(new MarkerOptions().position(iga).title("IGA"));
-                LatLng cinema = new LatLng(48.845218, -67.535614);
-                mMap.addMarker(new MarkerOptions().position(cinema).title("Cinema Gaiete"));
-                LatLng walmart = new LatLng(48.843711, -67.556267);
-                mMap.addMarker(new MarkerOptions().position(walmart).title("Walmart"));
 
                 Location test = new Location("test");
                 test.setLatitude(48.845218);
@@ -182,5 +188,16 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
             }
         }
         return bestLocation;
+    }
+
+    protected void positionnementEmplacements() {
+        listeEmplacement = emplacementDAO.listerEmplacements();
+
+        for(Emplacement emplacement: listeEmplacement) {
+            mMap.addMarker(new MarkerOptions().position(emplacement.getLocation()).title(emplacement.getNom()));
+
+        }
+
+
     }
 }

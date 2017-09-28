@@ -31,12 +31,15 @@ import com.google.zxing.integration.android.IntentResult;
 import java.io.File;
 
 import ca.qc.cgmatane.informatique.appdecouvertematane.R;
+import ca.qc.cgmatane.informatique.appdecouvertematane.donnees.BaseDeDonnees;
+import ca.qc.cgmatane.informatique.appdecouvertematane.donnees.EmplacementDAO;
 
 public class VueSlideMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private final static int MY_PERMISSION_FINE_LOCATION = 101;
     private final static int ACTION_PHOTO_CAMERA = 1;
+    private EmplacementDAO emplacementDAO;
 
 
 
@@ -46,6 +49,9 @@ public class VueSlideMenu extends AppCompatActivity
         setContentView(R.layout.vue_slide_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        BaseDeDonnees.getInstance(getApplicationContext());
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

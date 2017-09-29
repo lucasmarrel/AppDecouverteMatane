@@ -3,6 +3,7 @@ package ca.qc.cgmatane.informatique.appdecouvertematane.donnees;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by 1743002 on 2017-09-21.
@@ -72,17 +73,24 @@ public class BaseDeDonnees extends SQLiteOpenHelper {
 
     @Override
     public void onOpen(SQLiteDatabase db) {
+        try{
+            String DELETE = "DELETE FROM emplacement";
+            String INSERT_1 = "insert into emplacement(nom, latitude, longitude) VALUES(\"IGA\", 48.852335, -67.512314)";
+            String INSERT_2 = "insert into emplacement(nom, latitude, longitude) VALUES(\"Cinema Gaiete\", 48.845212, -67.535702)";
+            String INSERT_3 = "insert into emplacement(nom, latitude, longitude) VALUES(\"Walmart\", 48.843680, -67.556263)";
+
+            db.execSQL(DELETE);
+            db.execSQL(INSERT_1);
+            db.execSQL(INSERT_2);
+            db.execSQL(INSERT_3);
+        }catch (Exception ex){
+            Log.d("APPERROR",ex.getMessage());
+        }
 
 //        String DELETE = "delete from emplacement where 1 = 1";
 //        db.execSQL(DELETE);
 
-        String INSERT_1 = "insert into emplacement(nom, latitude, longitude) VALUES(\"IGA\",48, 31)";
-        String INSERT_2 = "insert into emplacement(nom, latitude, longitude) VALUES(\"Cinema Gaiete 425\",18, 614)";
-        String INSERT_3 = "insert into emplacement(nom, latitude, longitude) VALUES(\"Walmart\",11, 77)";
 
-        db.execSQL(INSERT_1);
-        db.execSQL(INSERT_2);
-        db.execSQL(INSERT_3);
 
     }
 

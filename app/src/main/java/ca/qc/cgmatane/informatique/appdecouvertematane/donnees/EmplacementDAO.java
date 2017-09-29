@@ -60,7 +60,7 @@ public class EmplacementDAO {
         }
 
         catch (Exception ex) {
-            Log.d("error", ex.getMessage());
+            Log.d("APPERROR", ex.getMessage());
         }
 
         return listeEmplacements;

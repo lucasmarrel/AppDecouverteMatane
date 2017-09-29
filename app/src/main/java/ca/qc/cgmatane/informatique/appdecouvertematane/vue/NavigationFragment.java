@@ -61,7 +61,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_navigation, container, false);
 
-        emplacementDAO  = new EmplacementDAO();
+        emplacementDAO  = EmplacementDAO.getInstance();
         listeEmplacement = new ArrayList<>();
         emplacement = new Emplacement();
 

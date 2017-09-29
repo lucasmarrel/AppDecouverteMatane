@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -39,7 +40,6 @@ public class VueSlideMenu extends AppCompatActivity
 
     private final static int MY_PERMISSION_FINE_LOCATION = 101;
     private final static int ACTION_PHOTO_CAMERA = 1;
-    private EmplacementDAO emplacementDAO;
 
 
 
@@ -51,7 +51,7 @@ public class VueSlideMenu extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         BaseDeDonnees.getInstance(getApplicationContext());
-
+        EmplacementDAO.getInstance();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

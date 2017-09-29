@@ -61,7 +61,7 @@ public class Emplacement
     }
 
     public LatLng getLocation(){
-        LatLng coordonnees = new LatLng(longitude,latitude);
+        LatLng coordonnees = new LatLng(latitude,longitude);
         return  coordonnees;
     }
 

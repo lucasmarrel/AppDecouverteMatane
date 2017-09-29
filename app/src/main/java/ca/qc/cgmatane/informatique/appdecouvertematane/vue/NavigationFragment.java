@@ -1,7 +1,10 @@
 package ca.qc.cgmatane.informatique.appdecouvertematane.vue;
 
 import android.Manifest;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
@@ -12,6 +15,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationBuilderWithBuilderAccessor;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,7 +53,6 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
 
     private GoogleMap mMap;
     private EmplacementDAO emplacementDAO;
-    private List<Emplacement> listeEmplacement;
     private Emplacement emplacement;
 
     public NavigationFragment() {
@@ -61,10 +66,6 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_navigation, container, false);
 
-        emplacementDAO  = EmplacementDAO.getInstance();
-        listeEmplacement = new ArrayList<>();
-        emplacement = new Emplacement();
-
         return v;
     }
 
@@ -74,11 +75,17 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        emplacementDAO  = EmplacementDAO.getInstance();
+        emplacement = new Emplacement();
+
+        positionnementEmplacements();
 
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
@@ -87,8 +94,6 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
             Location location = getLastKnownLocation();
 
             if (location != null) {
-
-                positionnementEmplacements();
 
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
@@ -118,6 +123,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
         LocationManager locationManager;
         Location bestLocation = null;
 
+
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
             locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
             List<String> providers =  locationManager.getProviders(true);
@@ -135,9 +141,27 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
             }
 
             if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new android.location.LocationListener() {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 50, new android.location.LocationListener() {
+
+                    private  EmplacementDAO emplacementDAO  = EmplacementDAO.getInstance();
+                    private  Location nearestLocation = new Location("location");
+
                     @Override
                     public void onLocationChanged(Location location) {
+
+                        List<Emplacement> listeEmplacement = emplacementDAO.listerEmplacements();
+
+                        for (Emplacement emplacement : listeEmplacement){
+                            nearestLocation.setLatitude(emplacement.getLatitude());
+                            nearestLocation.setLongitude(emplacement.getLongitude());
+
+                            int distance = (int) location.distanceTo(nearestLocation);
+                            if (distance<100){
+                                afficherAlarme(emplacement,distance);
+                            }
+
+                        }
+
 //                        double latitute = location.getLatitude();
 //                        double longitude = location.getLongitude();
 //                        LatLng latLng = new LatLng(latitute,longitude);
@@ -161,9 +185,27 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
                     }
                 });
             } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new android.location.LocationListener() {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 50, new android.location.LocationListener() {
+
+                    private  Location nearestLocation = new Location("location");
+                    private  EmplacementDAO emplacementDAO  = EmplacementDAO.getInstance();
+
                     @Override
                     public void onLocationChanged(Location location) {
+
+                        List<Emplacement> listeEmplacement = emplacementDAO.listerEmplacements();
+
+                        for (Emplacement emplacement : listeEmplacement){
+                            nearestLocation.setLatitude(emplacement.getLatitude());
+                            nearestLocation.setLongitude(emplacement.getLongitude());
+
+                            int distance = (int) location.distanceTo(nearestLocation);
+                            if (distance<100){
+                                afficherAlarme(emplacement,distance);
+                            }
+
+                        }
+
 //                        double latitute = location.getLatitude();
 //                        double longitude = location.getLongitude();
 //                        LatLng latLng = new LatLng(latitute,longitude);
@@ -191,13 +233,30 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
     }
 
     protected void positionnementEmplacements() {
-        listeEmplacement = emplacementDAO.listerEmplacements();
+
+        List<Emplacement> listeEmplacement = emplacementDAO.listerEmplacements();
 
         for(Emplacement emplacement: listeEmplacement) {
             mMap.addMarker(new MarkerOptions().position(emplacement.getLocation()).title(emplacement.getNom()));
 
         }
-
-
     }
+
+    protected void afficherAlarme(Emplacement emplacement, int distance){
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "AppMatane");
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setContentTitle("App Decouverte Matane");
+        builder.setContentText("Vous êtes à "+ distance + "m" +" de " + emplacement.getNom());
+        builder.setVibrate(new long[]{200,200,80,80,80,80,80,80});
+        Intent intent = new Intent(getActivity(),VueSlideMenu.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
+        stackBuilder.addParentStack(VueSlideMenu.class);
+        stackBuilder.addNextIntent(intent);
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
+        NotificationManager notificationManager = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0,builder.build());
+    }
+
+
 }

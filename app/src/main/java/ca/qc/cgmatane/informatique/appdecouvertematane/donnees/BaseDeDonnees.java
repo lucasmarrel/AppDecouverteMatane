@@ -78,13 +78,17 @@ public class BaseDeDonnees extends SQLiteOpenHelper {
             String INSERT_1 = "insert into emplacement(nom, latitude, longitude) VALUES(\"IGA\", 48.852335, -67.512314)";
             String INSERT_2 = "insert into emplacement(nom, latitude, longitude) VALUES(\"Cinema Gaiete\", 48.845212, -67.535702)";
             String INSERT_3 = "insert into emplacement(nom, latitude, longitude) VALUES(\"Walmart\", 48.843680, -67.556263)";
-            String INSERT_4 = "insert into emplacement(nom, latitude, longitude) VALUES(\"Cegep de Matane\", 48.841380, -67.497777)";
+            String INSERT_4 = "insert into emplacement(nom, latitude, longitude) VALUES(\"Cégep De Matane\", 48.841380, -67.497777)";
+            String INSERT_5 = "insert into emplacement(nom, latitude, longitude) VALUES(\"Polyvalente De Matane\", 48.841243, -67.508232)";
+            String INSERT_6 = "insert into emplacement(nom, latitude, longitude) VALUES(\"Dixie Lee Matane\", 48.843063, -67.510728)";
 
             db.execSQL(DELETE);
             db.execSQL(INSERT_1);
             db.execSQL(INSERT_2);
             db.execSQL(INSERT_3);
             db.execSQL(INSERT_4);
+            db.execSQL(INSERT_5);
+            db.execSQL(INSERT_6);
         }catch (Exception ex){
             Log.d("APPERROR",ex.getMessage());
         }

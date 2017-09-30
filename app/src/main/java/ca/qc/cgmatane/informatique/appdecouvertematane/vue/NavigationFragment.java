@@ -90,6 +90,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             mMap.setMyLocationEnabled(true);
+            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
             Location location = getLastKnownLocation();
 
@@ -141,7 +142,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
             }
 
             if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 50, new android.location.LocationListener() {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 100, new android.location.LocationListener() {
 
                     private  EmplacementDAO emplacementDAO  = EmplacementDAO.getInstance();
                     private  Location nearestLocation = new Location("location");
@@ -156,7 +157,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
                             nearestLocation.setLongitude(emplacement.getLongitude());
 
                             int distance = (int) location.distanceTo(nearestLocation);
-                            if (distance<100){
+                            if (distance<400){
                                 afficherAlarme(emplacement,distance);
                             }
 
@@ -185,7 +186,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
                     }
                 });
             } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 50, new android.location.LocationListener() {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, new android.location.LocationListener() {
 
                     private  Location nearestLocation = new Location("location");
                     private  EmplacementDAO emplacementDAO  = EmplacementDAO.getInstance();
@@ -200,7 +201,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
                             nearestLocation.setLongitude(emplacement.getLongitude());
 
                             int distance = (int) location.distanceTo(nearestLocation);
-                            if (distance<100){
+                            if (distance<400){
                                 afficherAlarme(emplacement,distance);
                             }
 
@@ -255,7 +256,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
         NotificationManager notificationManager = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0,builder.build());
+        notificationManager.notify(emplacement.getId(),builder.build());
     }
 
 

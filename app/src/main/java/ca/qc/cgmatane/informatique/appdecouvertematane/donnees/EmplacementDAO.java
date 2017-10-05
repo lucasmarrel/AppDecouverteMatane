@@ -85,4 +85,35 @@ public class EmplacementDAO {
         }
 
     }
+
+    public void modifierEmplacement(Emplacement emplacement){
+
+        try {
+            int id = emplacement.getId();
+            String nom = emplacement.getNom();
+            double latitude = emplacement.getLatitude();
+            double longitude = emplacement.getLongitude();
+
+            String MODIFIER_EMPLACEMENT = "UPDATE emplacement SET nom =\""+ nom +"\", latitude ="+ latitude+", longitude="+longitude+" WHERE id ="+id;
+            baseDeDonnees.getWritableDatabase().execSQL(MODIFIER_EMPLACEMENT);
+
+        }
+
+        catch (Exception ex) {
+            Log.d("APPERROR", ex.getMessage());
+        }
+
+    }
+
+    public void supprimerEmplacement(int id){
+
+        try {
+            baseDeDonnees.getWritableDatabase().delete("emplacement","id=" + id,null);
+        }
+
+        catch (Exception ex) {
+            Log.d("APPERROR", ex.getMessage());
+        }
+
+    }
 }

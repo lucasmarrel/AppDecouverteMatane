@@ -91,7 +91,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
 
             mMap.setMyLocationEnabled(true);
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            //type de map
+
             Location location = getLastKnownLocation();
 
             if (location != null) {

@@ -34,12 +34,14 @@ import java.io.File;
 import ca.qc.cgmatane.informatique.appdecouvertematane.R;
 import ca.qc.cgmatane.informatique.appdecouvertematane.donnees.BaseDeDonnees;
 import ca.qc.cgmatane.informatique.appdecouvertematane.donnees.EmplacementDAO;
+import ca.qc.cgmatane.informatique.appdecouvertematane.modele.Emplacement;
 
 public class VueSlideMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private final static int MY_PERMISSION_FINE_LOCATION = 101;
     private final static int ACTION_PHOTO_CAMERA = 1;
+    protected EmplacementDAO emplacementDAO;
 
 
 
@@ -51,7 +53,7 @@ public class VueSlideMenu extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         BaseDeDonnees.getInstance(getApplicationContext());
-        EmplacementDAO.getInstance();
+        emplacementDAO = EmplacementDAO.getInstance();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -160,8 +162,13 @@ public class VueSlideMenu extends AppCompatActivity
                     Toast.makeText(this, "Vous avez annulé le scan", Toast.LENGTH_LONG).show();
                 } else {
                     String resultat = result.getContents().toString();
-                    Toast.makeText(this, resultat, Toast.LENGTH_LONG).show();
-                    startCamera(resultat);
+                    Emplacement emplacement = verficationQrCode(resultat);
+                    if (emplacement!=null){
+                        Toast.makeText(this, "QR Code valide !", Toast.LENGTH_LONG).show();
+                        startCamera(emplacement);
+                    }else {
+                        Toast.makeText(this, "Le QR Code est invalide !", Toast.LENGTH_LONG).show();
+                    }
                 }
             } else {
                 super.onActivityResult(requestCode, resultCode, data);
@@ -180,7 +187,7 @@ public class VueSlideMenu extends AppCompatActivity
 
     }
 
-    protected void startCamera(String fileName) {
+    protected void startCamera(Emplacement emplacement) {
         String folderPath = Environment.getExternalStorageDirectory() + "/GallerieMatane";
         File folder = new File(folderPath);
         if (!folder.exists()) {
@@ -188,7 +195,7 @@ public class VueSlideMenu extends AppCompatActivity
             wallpaperDirectory.mkdirs();
         }
 
-        File photo = new File(folderPath, fileName +".jpg" );
+        File photo = new File(folderPath, "photo_"+ emplacement.getNom() +".jpg" );
 
         if (photo != null) {
 
@@ -198,5 +205,12 @@ public class VueSlideMenu extends AppCompatActivity
             startActivityForResult(intent, ACTION_PHOTO_CAMERA);
 
         }
+    }
+
+    protected Emplacement verficationQrCode(String qrCode){
+
+        Emplacement emplacement = emplacementDAO.trouverEmplacements(qrCode);
+
+        return  emplacement;
     }
 }

@@ -70,6 +70,43 @@ public class EmplacementDAO {
 
     }
 
+    public Emplacement trouverEmplacements(String qrCodeTrouve){
+
+        try {
+            emplacement=null;
+
+            String LISTER_EMPLACEMENTS = "SELECT * FROM emplacement WHERE qrCode =\""+qrCodeTrouve+"\"";
+            Cursor curseur = baseDeDonnees.getReadableDatabase().rawQuery(LISTER_EMPLACEMENTS,null);
+
+            listeEmplacements.clear();
+            int index_id = curseur.getColumnIndex("id");
+            int index_nom = curseur.getColumnIndex("nom");
+            int index_latitude = curseur.getColumnIndex("latitude");
+            int index_longitude = curseur.getColumnIndex("longitude");
+            int index_qrCode = curseur.getColumnIndex("qrCode");
+
+            for (curseur.moveToFirst(); !curseur.isAfterLast();curseur.moveToNext()) {
+
+                int id = curseur.getInt(index_id);
+                String nom = curseur.getString(index_nom);
+                double latitude = curseur.getDouble(index_latitude);
+                double longitude = curseur.getDouble(index_longitude);
+                String qrCode = curseur.getString(index_qrCode);
+
+                emplacement = new Emplacement(id, nom, latitude, longitude, qrCode);
+                listeEmplacements.add(emplacement);
+
+            }
+        }
+
+        catch (Exception ex) {
+            Log.d("APPERROR", ex.getMessage());
+        }
+
+        return emplacement;
+
+    }
+
     public void ajouterEmplacement(Emplacement emplacement){
 
         try {

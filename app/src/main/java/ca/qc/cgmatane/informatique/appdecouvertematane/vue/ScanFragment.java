@@ -16,6 +16,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import ca.qc.cgmatane.informatique.appdecouvertematane.R;
+import ca.qc.cgmatane.informatique.appdecouvertematane.donnees.EmplacementDAO;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,7 +50,8 @@ public class ScanFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-       boutonScanner =  view.findViewById(R.id.bouton_scanner_vue_scan);
+        boutonScanner =  view.findViewById(R.id.bouton_scanner_vue_scan);
+
 
          boutonScanner.setOnClickListener(new View.OnClickListener() {
             @Override

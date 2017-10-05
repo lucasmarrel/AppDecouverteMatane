@@ -1,8 +1,10 @@
 package ca.qc.cgmatane.informatique.appdecouvertematane.donnees;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.util.Log;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +66,23 @@ public class EmplacementDAO {
         }
 
         return listeEmplacements;
+
+    }
+
+    public void ajouterEmplacement(Emplacement emplacement){
+
+        try {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("nom", emplacement.getNom());
+            contentValues.put("latitude", emplacement.getLatitude());
+            contentValues.put("longitude", emplacement.getLongitude());
+            baseDeDonnees.getWritableDatabase().insertOrThrow("emplacement","", contentValues);
+
+        }
+
+        catch (Exception ex) {
+            Log.d("APPERROR", ex.getMessage());
+        }
 
     }
 }

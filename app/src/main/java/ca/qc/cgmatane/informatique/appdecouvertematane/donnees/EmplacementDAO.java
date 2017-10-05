@@ -46,6 +46,7 @@ public class EmplacementDAO {
             int index_nom = curseur.getColumnIndex("nom");
             int index_latitude = curseur.getColumnIndex("latitude");
             int index_longitude = curseur.getColumnIndex("longitude");
+            int index_qrCode = curseur.getColumnIndex("qrCode");
 
             for (curseur.moveToFirst(); !curseur.isAfterLast();curseur.moveToNext()) {
 
@@ -53,9 +54,9 @@ public class EmplacementDAO {
                 String nom = curseur.getString(index_nom);
                 double latitude = curseur.getDouble(index_latitude);
                 double longitude = curseur.getDouble(index_longitude);
+                String qrCode = curseur.getString(index_qrCode);
 
-                emplacement = new Emplacement(id, nom, latitude, longitude);
-
+                emplacement = new Emplacement(id, nom, latitude, longitude, qrCode);
                 listeEmplacements.add(emplacement);
 
             }
@@ -76,6 +77,7 @@ public class EmplacementDAO {
             contentValues.put("nom", emplacement.getNom());
             contentValues.put("latitude", emplacement.getLatitude());
             contentValues.put("longitude", emplacement.getLongitude());
+            contentValues.put("qrCode", emplacement.getQrCode());
             baseDeDonnees.getWritableDatabase().insertOrThrow("emplacement","", contentValues);
 
         }
@@ -93,8 +95,9 @@ public class EmplacementDAO {
             String nom = emplacement.getNom();
             double latitude = emplacement.getLatitude();
             double longitude = emplacement.getLongitude();
+            String qrCode = emplacement.getQrCode();
 
-            String MODIFIER_EMPLACEMENT = "UPDATE emplacement SET nom =\""+ nom +"\", latitude ="+ latitude+", longitude="+longitude+" WHERE id ="+id;
+            String MODIFIER_EMPLACEMENT = "UPDATE emplacement SET nom =\""+ nom +"\", latitude ="+ latitude+", longitude="+longitude+", qrCode=\""+ qrCode +"\" WHERE id ="+id;
             baseDeDonnees.getWritableDatabase().execSQL(MODIFIER_EMPLACEMENT);
 
         }

@@ -14,18 +14,19 @@ public class Emplacement
     private String nom;
     private double latitude;
     private double longitude;
+    private String qrCode;
 
-    public Emplacement(int id, String nom, double latitude, double longitude)
+    public Emplacement(int id, String nom, double latitude, double longitude, String qrCode)
     {
         this.id = id;
         this.nom = nom;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.qrCode = qrCode;
     }
 
     public Emplacement()
     {
-
     }
 
     public int getId() {
@@ -60,6 +61,14 @@ public class Emplacement
         this.longitude = longitude;
     }
 
+    public String getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
+    }
+
     public LatLng getLocation(){
         LatLng coordonnees = new LatLng(latitude,longitude);
         return  coordonnees;
@@ -72,6 +81,7 @@ public class Emplacement
                 ", nom='" + nom + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", qrCode='" + qrCode + '\'' +
                 '}';
     }
 }

@@ -31,6 +31,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -150,7 +151,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
                     @Override
                     public void onLocationChanged(Location location) {
 
-                        List<Emplacement> listeEmplacement = emplacementDAO.listerEmplacements();
+                        List<Emplacement> listeEmplacement = emplacementDAO.listerEmplacementsNonValide();
 
                         for (Emplacement emplacement : listeEmplacement){
                             nearestLocation.setLatitude(emplacement.getLatitude());
@@ -194,7 +195,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
                     @Override
                     public void onLocationChanged(Location location) {
 
-                        List<Emplacement> listeEmplacement = emplacementDAO.listerEmplacements();
+                        List<Emplacement> listeEmplacement = emplacementDAO.listerEmplacementsNonValide();
 
                         for (Emplacement emplacement : listeEmplacement){
                             nearestLocation.setLatitude(emplacement.getLatitude());
@@ -235,12 +236,18 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
 
     protected void positionnementEmplacements() {
 
-        List<Emplacement> listeEmplacement = emplacementDAO.listerEmplacements();
+        List<Emplacement> listeEmplacementValide = emplacementDAO.listerEmplacementsValide();
 
-        for(Emplacement emplacement: listeEmplacement) {
-            mMap.addMarker(new MarkerOptions().position(emplacement.getLocation()).title(emplacement.getNom()));
-
+        for(Emplacement emplacement: listeEmplacementValide) {
+            mMap.addMarker(new MarkerOptions().position(emplacement.getLocation()).title(emplacement.getNom()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         }
+
+        List<Emplacement> listeEmplacementNonValide = emplacementDAO.listerEmplacementsNonValide();
+
+        for(Emplacement emplacement: listeEmplacementNonValide) {
+            mMap.addMarker(new MarkerOptions().position(emplacement.getLocation()).title(emplacement.getNom()));
+        }
+
     }
 
     protected void afficherAlarme(Emplacement emplacement, int distance){

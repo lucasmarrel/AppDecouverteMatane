@@ -33,7 +33,7 @@ public class BaseDeDonnees extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String TABLE_EMPLACEMENT = "create table emplacement(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, latitude REAL, longitude REAL, qrCode TEXT)";
+        String TABLE_EMPLACEMENT = "create table emplacement(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, latitude REAL, longitude REAL, qrCode TEXT, valide INTEGER)";
         String TABLE_UTILISATEUR = "create table utilisateur(id INTEGER PRIMARY KEY AUTOINCREMENT, prenom TEXT, nom TEXT, nomUtilisateur TEXT, mail TEXT, motDePasse TEXT)";
         String TABLE_PHOTO = "create table photo(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT)";
 
@@ -55,7 +55,7 @@ public class BaseDeDonnees extends SQLiteOpenHelper {
         String DETRUIRE_TABLE_PHOTO = "drop table photo";
         db.execSQL(DETRUIRE_TABLE_PHOTO);
 
-        String TABLE_EMPLACEMENT = "create table emplacement(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, latitude REAL, longitude REAL, qrCode TEXT)";
+        String TABLE_EMPLACEMENT = "create table emplacement(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, latitude REAL, longitude REAL, qrCode TEXT, valide INTEGER)";
         String TABLE_UTILISATEUR = "create table utilisateur(id INTEGER PRIMARY KEY AUTOINCREMENT, prenom TEXT, nom TEXT, nomUtilisateur TEXT, mail TEXT, motDePasse TEXT)";
         String TABLE_PHOTO = "create table photo(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT)";
 
@@ -70,16 +70,16 @@ public class BaseDeDonnees extends SQLiteOpenHelper {
             String DETRUIRE_TABLE_EMPLACEMENT = "drop table emplacement";
             db.execSQL(DETRUIRE_TABLE_EMPLACEMENT);
 
-            String TABLE_EMPLACEMENT = "create table emplacement(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, latitude REAL, longitude REAL, qrCode TEXT)";
+            String TABLE_EMPLACEMENT = "create table emplacement(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, latitude REAL, longitude REAL, qrCode TEXT, valide INTEGER)";
             db.execSQL(TABLE_EMPLACEMENT);
 
             String DELETE = "DELETE FROM emplacement";
-            String INSERT_1 = "insert into emplacement(nom, latitude, longitude, qrCode) VALUES(\"IGA\", 48.852335, -67.512314, \"appmataneempiga\")";
-            String INSERT_2 = "insert into emplacement(nom, latitude, longitude, qrCode) VALUES(\"Cinema Gaiete\", 48.845212, -67.535702, \"appmataneempcinemagaiete\")";
-            String INSERT_3 = "insert into emplacement(nom, latitude, longitude, qrCode) VALUES(\"Walmart\", 48.843680, -67.556263, \"appmataneempwalmart\")";
-            String INSERT_4 = "insert into emplacement(nom, latitude, longitude, qrCode) VALUES(\"Cégep De Matane\", 48.841380, -67.497777, \"appmataneempcegep\")";
-            String INSERT_5 = "insert into emplacement(nom, latitude, longitude, qrCode) VALUES(\"Polyvalente De Matane\", 48.841243, -67.508232, \"appmataneemppolyvalente\")";
-            String INSERT_6 = "insert into emplacement(nom, latitude, longitude, qrCode) VALUES(\"Dixie Lee Matane\", 48.843063, -67.510728, \"appmataneempdixielee\")";
+            String INSERT_1 = "insert into emplacement(nom, latitude, longitude, qrCode, valide) VALUES(\"IGA\", 48.852335, -67.512314, \"appmataneempiga\", 1)";
+            String INSERT_2 = "insert into emplacement(nom, latitude, longitude, qrCode, valide) VALUES(\"Cinema Gaiete\", 48.845212, -67.535702, \"appmataneempcinemagaiete\", 0)";
+            String INSERT_3 = "insert into emplacement(nom, latitude, longitude, qrCode, valide) VALUES(\"Walmart\", 48.843680, -67.556263, \"appmataneempwalmart\", 1)";
+            String INSERT_4 = "insert into emplacement(nom, latitude, longitude, qrCode, valide) VALUES(\"Cégep De Matane\", 48.841380, -67.497777, \"appmataneempcegep\", 1)";
+            String INSERT_5 = "insert into emplacement(nom, latitude, longitude, qrCode, valide) VALUES(\"Polyvalente De Matane\", 48.841243, -67.508232, \"appmataneemppolyvalente\", 0)";
+            String INSERT_6 = "insert into emplacement(nom, latitude, longitude, qrCode, valide) VALUES(\"Dixie Lee Matane\", 48.843063, -67.510728, \"appmataneempdixielee\", 0)";
 
             db.execSQL(DELETE);
             db.execSQL(INSERT_1);

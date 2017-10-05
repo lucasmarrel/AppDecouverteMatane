@@ -35,10 +35,10 @@ public class EmplacementDAO {
 
     }
 
-    public List<Emplacement> listerEmplacements(){
+    public List<Emplacement> listerEmplacementsNonValide(){
 
         try {
-            String LISTER_EMPLACEMENTS = "SELECT * FROM emplacement";
+            String LISTER_EMPLACEMENTS = "SELECT * FROM emplacement WHERE valide = 0";
             Cursor curseur = baseDeDonnees.getReadableDatabase().rawQuery(LISTER_EMPLACEMENTS,null);
 
             listeEmplacements.clear();
@@ -47,20 +47,64 @@ public class EmplacementDAO {
             int index_latitude = curseur.getColumnIndex("latitude");
             int index_longitude = curseur.getColumnIndex("longitude");
             int index_qrCode = curseur.getColumnIndex("qrCode");
+            int index_valide = curseur.getColumnIndex("valide");
 
             for (curseur.moveToFirst(); !curseur.isAfterLast();curseur.moveToNext()) {
-
+                emplacement = null;
                 int id = curseur.getInt(index_id);
                 String nom = curseur.getString(index_nom);
                 double latitude = curseur.getDouble(index_latitude);
                 double longitude = curseur.getDouble(index_longitude);
                 String qrCode = curseur.getString(index_qrCode);
+                int valide = curseur.getInt(index_valide);
 
-                emplacement = new Emplacement(id, nom, latitude, longitude, qrCode);
+                emplacement = new Emplacement(id, nom, latitude, longitude, qrCode, valide);
+
                 listeEmplacements.add(emplacement);
 
             }
         }
+
+
+
+        catch (Exception ex) {
+            Log.d("APPERROR", ex.getMessage());
+        }
+
+        return listeEmplacements;
+
+    }
+
+    public List<Emplacement> listerEmplacementsValide(){
+
+        try {
+            String LISTER_EMPLACEMENTS = "SELECT * FROM emplacement WHERE valide = 1";
+            Cursor curseur = baseDeDonnees.getReadableDatabase().rawQuery(LISTER_EMPLACEMENTS,null);
+
+            listeEmplacements.clear();
+            int index_id = curseur.getColumnIndex("id");
+            int index_nom = curseur.getColumnIndex("nom");
+            int index_latitude = curseur.getColumnIndex("latitude");
+            int index_longitude = curseur.getColumnIndex("longitude");
+            int index_qrCode = curseur.getColumnIndex("qrCode");
+            int index_valide = curseur.getColumnIndex("valide");
+
+            for (curseur.moveToFirst(); !curseur.isAfterLast(); curseur.moveToNext()) {
+
+                emplacement = null;
+                int id = curseur.getInt(index_id);
+                String nom = curseur.getString(index_nom);
+                double latitude = curseur.getDouble(index_latitude);
+                double longitude = curseur.getDouble(index_longitude);
+                String qrCode = curseur.getString(index_qrCode);
+                int valide = curseur.getInt(index_valide);
+
+                emplacement = new Emplacement(id, nom, latitude, longitude, qrCode, valide);
+                listeEmplacements.add(emplacement);
+            }
+        }
+
+
 
         catch (Exception ex) {
             Log.d("APPERROR", ex.getMessage());
@@ -84,6 +128,7 @@ public class EmplacementDAO {
             int index_latitude = curseur.getColumnIndex("latitude");
             int index_longitude = curseur.getColumnIndex("longitude");
             int index_qrCode = curseur.getColumnIndex("qrCode");
+            int index_valide = curseur.getColumnIndex("valide");
 
             for (curseur.moveToFirst(); !curseur.isAfterLast();curseur.moveToNext()) {
 
@@ -92,8 +137,9 @@ public class EmplacementDAO {
                 double latitude = curseur.getDouble(index_latitude);
                 double longitude = curseur.getDouble(index_longitude);
                 String qrCode = curseur.getString(index_qrCode);
+                int valide = curseur.getInt(index_valide);
 
-                emplacement = new Emplacement(id, nom, latitude, longitude, qrCode);
+                emplacement = new Emplacement(id, nom, latitude, longitude, qrCode, valide);
                 listeEmplacements.add(emplacement);
 
             }
@@ -115,6 +161,7 @@ public class EmplacementDAO {
             contentValues.put("latitude", emplacement.getLatitude());
             contentValues.put("longitude", emplacement.getLongitude());
             contentValues.put("qrCode", emplacement.getQrCode());
+            contentValues.put("valide", emplacement.getValide());
             baseDeDonnees.getWritableDatabase().insertOrThrow("emplacement","", contentValues);
 
         }
@@ -134,7 +181,7 @@ public class EmplacementDAO {
             double longitude = emplacement.getLongitude();
             String qrCode = emplacement.getQrCode();
 
-            String MODIFIER_EMPLACEMENT = "UPDATE emplacement SET nom =\""+ nom +"\", latitude ="+ latitude+", longitude="+longitude+", qrCode=\""+ qrCode +"\" WHERE id ="+id;
+            String MODIFIER_EMPLACEMENT = "UPDATE emplacement SET nom =\""+ nom +"\", latitude ="+ latitude+", longitude="+longitude+", qrCode=\""+ qrCode +"\", valide="+emplacement.getValide()+" WHERE id ="+id;
             baseDeDonnees.getWritableDatabase().execSQL(MODIFIER_EMPLACEMENT);
 
         }

@@ -90,8 +90,8 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             mMap.setMyLocationEnabled(true);
-            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            //type de map
             Location location = getLastKnownLocation();
 
             if (location != null) {

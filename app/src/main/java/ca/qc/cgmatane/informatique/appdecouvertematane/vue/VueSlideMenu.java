@@ -165,8 +165,13 @@ public class VueSlideMenu extends AppCompatActivity
                     String resultat = result.getContents().toString();
                     this.emplacement = verficationQrCode(resultat);
                     if (emplacement!=null){
-                        Toast.makeText(this, "QR Code valide !", Toast.LENGTH_LONG).show();
-                        startCamera(emplacement);
+                        if (emplacementDAO.emplacementValide(emplacement.getId())==false){
+                            Toast.makeText(this, "QR Code valide !", Toast.LENGTH_LONG).show();
+                            startCamera(emplacement);
+                        }else{
+                            Toast.makeText(this, "Cet emplacement a déjà été validé !", Toast.LENGTH_LONG).show();
+                        }
+
                     }else {
                         Toast.makeText(this, "Le QR Code est invalide !", Toast.LENGTH_LONG).show();
                         this.emplacement = null;
@@ -185,6 +190,7 @@ public class VueSlideMenu extends AppCompatActivity
             else {
                 validationEmplacement(this.emplacement.getId());
                 Toast.makeText(this, "Félicitations ! L'emplacement a été validé", Toast.LENGTH_LONG).show();
+                this.emplacement = null;
             }
         }
 

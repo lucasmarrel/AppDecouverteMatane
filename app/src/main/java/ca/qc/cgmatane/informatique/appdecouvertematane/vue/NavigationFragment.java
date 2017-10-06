@@ -239,7 +239,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
         List<Emplacement> listeEmplacementValide = emplacementDAO.listerEmplacementsValide();
 
         for(Emplacement emplacement: listeEmplacementValide) {
-            mMap.addMarker(new MarkerOptions().position(emplacement.getLocation()).title(emplacement.getNom()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            mMap.addMarker(new MarkerOptions().position(emplacement.getLocation()).title(emplacement.getNom()+" (Validé)").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         }
 
         List<Emplacement> listeEmplacementNonValide = emplacementDAO.listerEmplacementsNonValide();

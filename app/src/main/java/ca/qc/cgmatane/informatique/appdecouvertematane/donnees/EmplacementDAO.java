@@ -153,6 +153,31 @@ public class EmplacementDAO {
 
     }
 
+    public boolean emplacementValide(int id){
+
+        int valide =0;
+
+        try {
+            String EMPLACEMENT_VALIDE = "SELECT valide FROM emplacement WHERE id ="+id;
+            Cursor curseur = baseDeDonnees.getReadableDatabase().rawQuery(EMPLACEMENT_VALIDE,null);
+
+            int index_valide = curseur.getColumnIndex("valide");
+
+            for (curseur.moveToFirst(); !curseur.isAfterLast();curseur.moveToNext()) {
+
+                valide = curseur.getInt(index_valide);
+
+            }
+        }
+
+        catch (Exception ex) {
+            Log.d("APPERROR", ex.getMessage());
+        }
+
+        return valide == 1;
+
+    }
+
     public void ajouterEmplacement(Emplacement emplacement){
 
         try {

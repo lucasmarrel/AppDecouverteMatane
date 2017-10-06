@@ -42,6 +42,7 @@ public class VueSlideMenu extends AppCompatActivity
     private final static int MY_PERMISSION_FINE_LOCATION = 101;
     private final static int ACTION_PHOTO_CAMERA = 1;
     protected EmplacementDAO emplacementDAO;
+    protected  Emplacement emplacement = null;
 
 
 
@@ -162,12 +163,13 @@ public class VueSlideMenu extends AppCompatActivity
                     Toast.makeText(this, "Vous avez annulé le scan", Toast.LENGTH_LONG).show();
                 } else {
                     String resultat = result.getContents().toString();
-                    Emplacement emplacement = verficationQrCode(resultat);
+                    this.emplacement = verficationQrCode(resultat);
                     if (emplacement!=null){
                         Toast.makeText(this, "QR Code valide !", Toast.LENGTH_LONG).show();
                         startCamera(emplacement);
                     }else {
                         Toast.makeText(this, "Le QR Code est invalide !", Toast.LENGTH_LONG).show();
+                        this.emplacement = null;
                     }
                 }
             } else {
@@ -178,9 +180,11 @@ public class VueSlideMenu extends AppCompatActivity
             IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             if (resultCode != RESULT_OK ) {
                 Toast.makeText(this, "Vous devez prendre une photo pour valider l'emplacement", Toast.LENGTH_LONG).show();
+                this.emplacement = null;
             }
             else {
-                Toast.makeText(this, "Photo enregistrée", Toast.LENGTH_LONG).show();
+                validationEmplacement(this.emplacement.getId());
+                Toast.makeText(this, "Félicitations ! L'emplacement a été validé", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -212,5 +216,9 @@ public class VueSlideMenu extends AppCompatActivity
         Emplacement emplacement = emplacementDAO.trouverEmplacements(qrCode);
 
         return  emplacement;
+    }
+
+    protected void validationEmplacement(int id){
+        emplacementDAO.validationEmplacement(id);
     }
 }

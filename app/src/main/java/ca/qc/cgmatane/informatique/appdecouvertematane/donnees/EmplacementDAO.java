@@ -192,6 +192,21 @@ public class EmplacementDAO {
 
     }
 
+    public void validationEmplacement(int id){
+
+        try {
+
+            String MODIFIER_EMPLACEMENT = "UPDATE emplacement SET valide = 1 WHERE id ="+id;
+            baseDeDonnees.getWritableDatabase().execSQL(MODIFIER_EMPLACEMENT);
+
+        }
+
+        catch (Exception ex) {
+            Log.d("APPERROR", ex.getMessage());
+        }
+
+    }
+
     public void supprimerEmplacement(int id){
 
         try {

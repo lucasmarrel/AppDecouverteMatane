@@ -40,9 +40,11 @@ public class VueSlideMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private final static int MY_PERMISSION_FINE_LOCATION = 101;
+    private final static int MY_PERMISSION_READ_EXTERNAL_STORAGE = 102;
     private final static int ACTION_PHOTO_CAMERA = 1;
     protected EmplacementDAO emplacementDAO;
     protected  Emplacement emplacement = null;
+    public static String folderPath = Environment.getExternalStorageDirectory() + "/GallerieMatane/";
 
 
 
@@ -126,6 +128,13 @@ public class VueSlideMenu extends AppCompatActivity
             manager.beginTransaction().replace(R.id.mainLayout, scanFragment).commit();
 
         } else if (id == R.id.nav_pictures) {
+            GalerieFragment galerieFragment = new GalerieFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.mainLayout, galerieFragment).commit();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_READ_EXTERNAL_STORAGE);
+            }
 
         } else if (id == R.id.nav_parametres) {
 
@@ -147,6 +156,15 @@ public class VueSlideMenu extends AppCompatActivity
                         finish();
                     }
                 }
+                break;
+            case MY_PERMISSION_READ_EXTERNAL_STORAGE:
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(getApplicationContext(),"L'application a besoin de la permission de lecture de fichiers pour fonctionner",Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                }
+                break;
         }
 
     }
@@ -198,7 +216,7 @@ public class VueSlideMenu extends AppCompatActivity
     }
 
     protected void startCamera(Emplacement emplacement) {
-        String folderPath = Environment.getExternalStorageDirectory() + "/GallerieMatane";
+
         File folder = new File(folderPath);
         if (!folder.exists()) {
             File wallpaperDirectory = new File(folderPath);
@@ -207,6 +225,7 @@ public class VueSlideMenu extends AppCompatActivity
 
         File photo = new File(folderPath, "photo_"+ emplacement.getNom() +".jpg" );
 
+        Log.d("APPERROR", photo.getAbsolutePath());
         if (photo != null) {
 
             Uri relativePath = Uri.fromFile(photo);

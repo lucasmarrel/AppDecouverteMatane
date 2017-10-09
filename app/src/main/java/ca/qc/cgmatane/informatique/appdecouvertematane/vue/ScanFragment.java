@@ -1,8 +1,6 @@
 package ca.qc.cgmatane.informatique.appdecouvertematane.vue;
 
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,13 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import ca.qc.cgmatane.informatique.appdecouvertematane.R;
-import ca.qc.cgmatane.informatique.appdecouvertematane.donnees.EmplacementDAO;
 
 /**
  * A simple {@link Fragment} subclass.

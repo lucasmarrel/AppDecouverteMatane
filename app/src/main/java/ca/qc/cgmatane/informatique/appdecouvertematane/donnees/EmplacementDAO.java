@@ -75,6 +75,46 @@ public class EmplacementDAO {
 
     }
 
+    public List<Emplacement> listerEmplacements(){
+
+        try {
+            String LISTER_EMPLACEMENTS = "SELECT * FROM emplacement";
+            Cursor curseur = baseDeDonnees.getReadableDatabase().rawQuery(LISTER_EMPLACEMENTS,null);
+
+            listeEmplacements.clear();
+            int index_id = curseur.getColumnIndex("id");
+            int index_nom = curseur.getColumnIndex("nom");
+            int index_latitude = curseur.getColumnIndex("latitude");
+            int index_longitude = curseur.getColumnIndex("longitude");
+            int index_qrCode = curseur.getColumnIndex("qrCode");
+            int index_valide = curseur.getColumnIndex("valide");
+
+            for (curseur.moveToFirst(); !curseur.isAfterLast();curseur.moveToNext()) {
+                emplacement = null;
+                int id = curseur.getInt(index_id);
+                String nom = curseur.getString(index_nom);
+                double latitude = curseur.getDouble(index_latitude);
+                double longitude = curseur.getDouble(index_longitude);
+                String qrCode = curseur.getString(index_qrCode);
+                int valide = curseur.getInt(index_valide);
+
+                emplacement = new Emplacement(id, nom, latitude, longitude, qrCode, valide);
+
+                listeEmplacements.add(emplacement);
+
+            }
+        }
+
+
+
+        catch (Exception ex) {
+            Log.d("APPERROR", ex.getMessage());
+        }
+
+        return listeEmplacements;
+
+    }
+
     public List<Emplacement> listerEmplacementsValide(){
 
         try {

@@ -29,6 +29,16 @@ public class Emplacement
         this.valide = valide;
     }
 
+    public Emplacement( String nom, double latitude, double longitude, String qrCode)
+    {
+
+        this.nom = nom;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.qrCode = qrCode;
+
+    }
+
     public Emplacement()
     {
     }
@@ -101,6 +111,7 @@ public class Emplacement
     public HashMap<String, String> exporterEnHashMap()
     {
         HashMap<String, String> listeEmplacements = new HashMap<>();
+        listeEmplacements.put("id",String.valueOf(this.id));
         listeEmplacements.put("nom", this.nom);
         listeEmplacements.put("coordonnees", this.latitude + ", " + this.longitude);
 

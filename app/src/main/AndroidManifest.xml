@@ -43,6 +43,7 @@
 
         <activity android:name=".vue.VueAffichagePhoto" />
         <activity android:name=".vue.VueAjouterEmplacements"></activity>
+        <activity android:name=".vue.VueModifierEmplacements"></activity>
     </application>
 
 </manifest>

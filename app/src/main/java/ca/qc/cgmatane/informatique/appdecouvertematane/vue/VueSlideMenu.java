@@ -3,7 +3,6 @@ package ca.qc.cgmatane.informatique.appdecouvertematane.vue;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -12,10 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -136,7 +132,12 @@ public class VueSlideMenu extends AppCompatActivity
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_READ_EXTERNAL_STORAGE);
             }
 
-        } else if (id == R.id.nav_parametres) {
+        } else if (id== R.id.nav_gestion_emplacements){
+            GestionEmplacementsFragment gestionEmplacementsFragment = new GestionEmplacementsFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.mainLayout, gestionEmplacementsFragment).commit();
+        }
+        else if (id == R.id.nav_parametres) {
 
         }
 
@@ -238,7 +239,7 @@ public class VueSlideMenu extends AppCompatActivity
 
     protected Emplacement verficationQrCode(String qrCode){
 
-        Emplacement emplacement = emplacementDAO.trouverEmplacements(qrCode);
+        Emplacement emplacement = emplacementDAO.trouverEmplacementQrCode(qrCode);
 
         return  emplacement;
     }

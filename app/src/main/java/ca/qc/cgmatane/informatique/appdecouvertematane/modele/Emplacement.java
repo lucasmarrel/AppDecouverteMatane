@@ -4,6 +4,8 @@ import android.location.Location;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.HashMap;
+
 /**
  * Created by 1732986 on 2017-09-21.
  */
@@ -25,6 +27,16 @@ public class Emplacement
         this.longitude = longitude;
         this.qrCode = qrCode;
         this.valide = valide;
+    }
+
+    public Emplacement( String nom, double latitude, double longitude, String qrCode)
+    {
+
+        this.nom = nom;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.qrCode = qrCode;
+
     }
 
     public Emplacement()
@@ -94,6 +106,17 @@ public class Emplacement
                 ", qrCode='" + qrCode + '\'' +
                 ", valide=" + valide +
                 '}';
+    }
+
+    public HashMap<String, String> exporterEnHashMap()
+    {
+        HashMap<String, String> listeEmplacements = new HashMap<>();
+        listeEmplacements.put("id",String.valueOf(this.id));
+        listeEmplacements.put("nom", this.nom);
+        listeEmplacements.put("coordonnees", this.latitude + ", " + this.longitude);
+
+        return listeEmplacements;
+
     }
 }
 

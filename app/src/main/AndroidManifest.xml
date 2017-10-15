@@ -41,7 +41,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".vue.VueAffichagePhoto"></activity>
+        <activity android:name=".vue.VueAffichagePhoto" />
+        <activity android:name=".vue.VueAjouterEmplacements"></activity>
+        <activity android:name=".vue.VueModifierEmplacements"></activity>
     </application>
 
 </manifest>

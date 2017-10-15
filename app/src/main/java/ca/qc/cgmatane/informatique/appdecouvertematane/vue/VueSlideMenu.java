@@ -136,7 +136,12 @@ public class VueSlideMenu extends AppCompatActivity
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_READ_EXTERNAL_STORAGE);
             }
 
-        } else if (id == R.id.nav_parametres) {
+        } else if (id== R.id.nav_gestion_emplacements){
+            GestionEmplacementsFragment gestionEmplacementsFragment = new GestionEmplacementsFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.mainLayout, gestionEmplacementsFragment).commit();
+        }
+        else if (id == R.id.nav_parametres) {
 
         }
 

@@ -186,7 +186,7 @@ public class EmplacementDAO {
             contentValues.put("latitude", emplacement.getLatitude());
             contentValues.put("longitude", emplacement.getLongitude());
             contentValues.put("qrCode", emplacement.getQrCode());
-            contentValues.put("valide", emplacement.getValide());
+            contentValues.put("valide", 0);
             baseDeDonnees.getWritableDatabase().insertOrThrow("emplacement","", contentValues);
 
         }

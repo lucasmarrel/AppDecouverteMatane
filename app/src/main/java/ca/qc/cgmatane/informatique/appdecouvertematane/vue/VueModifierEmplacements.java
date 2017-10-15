@@ -63,7 +63,8 @@ public class VueModifierEmplacements extends AppCompatActivity {
             boutonSupprimer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    supprimerEmplacement(emplacement.getId());
+                    retourListeEmplacements();
                 }
             });
             boutonAnnuler = findViewById(R.id.bouton_annuler_vue_modifier_emplacement);
@@ -76,9 +77,11 @@ public class VueModifierEmplacements extends AppCompatActivity {
         }catch (Exception ex){
             Log.d("APPERROR",ex.getMessage());
         }
+    }
 
-
-
+    protected void supprimerEmplacement(int id)
+    {
+        emplacementDAO.supprimerEmplacement(id);
     }
 
     protected void modifierEmplacement()

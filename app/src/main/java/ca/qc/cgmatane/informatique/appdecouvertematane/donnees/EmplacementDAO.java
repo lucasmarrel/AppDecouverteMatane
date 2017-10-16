@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ca.qc.cgmatane.informatique.appdecouvertematane.modele.Emplacement;
@@ -75,10 +76,10 @@ public class EmplacementDAO {
 
     }
 
-    public List<Emplacement> listerEmplacements(){
+    public List<Emplacement> listerTousLesEmplacements(){
 
         try {
-            String LISTER_EMPLACEMENTS = "SELECT * FROM emplacement";
+            String LISTER_EMPLACEMENTS = "SELECT * FROM emplacement ";
             Cursor curseur = baseDeDonnees.getReadableDatabase().rawQuery(LISTER_EMPLACEMENTS,null);
 
             listeEmplacements.clear();
@@ -154,12 +155,66 @@ public class EmplacementDAO {
 
     }
 
-    public Emplacement trouverEmplacements(String qrCodeTrouve){
+    public List<HashMap<String, String>> listerTousLesEmplacementsEnHashMap()
+    {
+        List<Emplacement> listeEmplacements = listerTousLesEmplacements();
+        List<HashMap<String, String>> listeEmplacementsEnHashMap = new ArrayList<>();
+
+        for (Emplacement emplacement: listeEmplacements)
+        {
+            listeEmplacementsEnHashMap.add(emplacement.exporterEnHashMap());
+        }
+
+        return listeEmplacementsEnHashMap;
+    }
+
+
+
+    public Emplacement trouverEmplacementQrCode(String qrCodeTrouve){
 
         try {
             emplacement=null;
 
             String LISTER_EMPLACEMENTS = "SELECT * FROM emplacement WHERE qrCode =\""+qrCodeTrouve+"\"";
+            Cursor curseur = baseDeDonnees.getReadableDatabase().rawQuery(LISTER_EMPLACEMENTS,null);
+
+            listeEmplacements.clear();
+            int index_id = curseur.getColumnIndex("id");
+            int index_nom = curseur.getColumnIndex("nom");
+            int index_latitude = curseur.getColumnIndex("latitude");
+            int index_longitude = curseur.getColumnIndex("longitude");
+            int index_qrCode = curseur.getColumnIndex("qrCode");
+            int index_valide = curseur.getColumnIndex("valide");
+
+            for (curseur.moveToFirst(); !curseur.isAfterLast();curseur.moveToNext()) {
+
+                int id = curseur.getInt(index_id);
+                String nom = curseur.getString(index_nom);
+                double latitude = curseur.getDouble(index_latitude);
+                double longitude = curseur.getDouble(index_longitude);
+                String qrCode = curseur.getString(index_qrCode);
+                int valide = curseur.getInt(index_valide);
+
+                emplacement = new Emplacement(id, nom, latitude, longitude, qrCode, valide);
+                listeEmplacements.add(emplacement);
+
+            }
+        }
+
+        catch (Exception ex) {
+            Log.d("APPERROR", ex.getMessage());
+        }
+
+        return emplacement;
+
+    }
+
+    public Emplacement trouverEmplacementId(int idEmplacement){
+
+        try {
+            emplacement=null;
+
+            String LISTER_EMPLACEMENTS = "SELECT * FROM emplacement WHERE id ="+idEmplacement;
             Cursor curseur = baseDeDonnees.getReadableDatabase().rawQuery(LISTER_EMPLACEMENTS,null);
 
             listeEmplacements.clear();
@@ -226,7 +281,7 @@ public class EmplacementDAO {
             contentValues.put("latitude", emplacement.getLatitude());
             contentValues.put("longitude", emplacement.getLongitude());
             contentValues.put("qrCode", emplacement.getQrCode());
-            contentValues.put("valide", emplacement.getValide());
+            contentValues.put("valide", 0);
             baseDeDonnees.getWritableDatabase().insertOrThrow("emplacement","", contentValues);
 
         }

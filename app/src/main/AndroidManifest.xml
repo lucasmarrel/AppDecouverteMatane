@@ -42,6 +42,8 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".vue.VueAffichagePhoto" />
+        <activity android:name=".vue.VueAjouterEmplacements"></activity>
+        <activity android:name=".vue.VueModifierEmplacements"></activity>
     </application>
 
 </manifest>

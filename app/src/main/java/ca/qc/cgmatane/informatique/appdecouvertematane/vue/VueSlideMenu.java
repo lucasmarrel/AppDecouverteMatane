@@ -37,10 +37,11 @@ public class VueSlideMenu extends AppCompatActivity
 
     private final static int MY_PERMISSION_FINE_LOCATION = 101;
     private final static int MY_PERMISSION_READ_EXTERNAL_STORAGE = 102;
-    private final static int ACTION_PHOTO_CAMERA = 1;
+    private final static int ACTION_PHOTO_CAMERA = 0;
     protected EmplacementDAO emplacementDAO;
     protected  Emplacement emplacement = null;
     public static String folderPath = Environment.getExternalStorageDirectory() + "/GallerieMatane/";
+    protected GestionEmplacementsFragment gestionEmplacementsFragment = null ;
 
 
 
@@ -133,7 +134,7 @@ public class VueSlideMenu extends AppCompatActivity
             }
 
         } else if (id== R.id.nav_gestion_emplacements){
-            GestionEmplacementsFragment gestionEmplacementsFragment = new GestionEmplacementsFragment();
+            gestionEmplacementsFragment = new GestionEmplacementsFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.mainLayout, gestionEmplacementsFragment).commit();
         }
@@ -212,8 +213,6 @@ public class VueSlideMenu extends AppCompatActivity
                 this.emplacement = null;
             }
         }
-
-
     }
 
     protected void startCamera(Emplacement emplacement) {

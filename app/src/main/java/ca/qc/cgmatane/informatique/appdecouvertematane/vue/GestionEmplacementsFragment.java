@@ -30,8 +30,8 @@ public class GestionEmplacementsFragment extends Fragment {
     protected List<HashMap<String, String>> listeEmplacements;
     protected FloatingActionButton boutonAjouter;
 
-    protected final static int ACTIVITE_AJOUTER_EMPLACEMENT = 1;
-    protected final static int ACTIVITE_MODIFIER_EMPLACEMENT = 2;
+    public final static int ACTIVITE_AJOUTER_EMPLACEMENT = 1;
+    public final static int ACTIVITE_MODIFIER_EMPLACEMENT = 2;
     public GestionEmplacementsFragment() {
         // Required empty public constructor
     }
@@ -81,9 +81,12 @@ public class GestionEmplacementsFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        afficherTousLesEmplacements();
+    }
 
-
-    protected void afficherTousLesEmplacements()
+    public void afficherTousLesEmplacements()
     {
         listeEmplacements = emplacementDAO.listerTousLesEmplacementsEnHashMap();
 

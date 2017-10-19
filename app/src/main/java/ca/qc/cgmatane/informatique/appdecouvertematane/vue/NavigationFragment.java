@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
@@ -12,6 +13,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -55,6 +57,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
     private GoogleMap mMap;
     private EmplacementDAO emplacementDAO;
     private Emplacement emplacement;
+    protected SharedPreferences sharedPreferences;
 
     public NavigationFragment() {
         // Required empty public constructor
@@ -86,12 +89,20 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
         emplacementDAO  = EmplacementDAO.getInstance();
         emplacement = new Emplacement();
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean sat = sharedPreferences.getBoolean("satellite", true);
+        if(sat){
+            mMap.setMapType(googleMap.MAP_TYPE_SATELLITE);
+        }
+        else {
+            mMap.setMapType(googleMap.MAP_TYPE_NORMAL);
+        }
         positionnementEmplacements();
 
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             mMap.setMyLocationEnabled(true);
-            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+//            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
             Location location = getLastKnownLocation();
 
@@ -251,19 +262,22 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
     }
 
     protected void afficherAlarme(Emplacement emplacement, int distance){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "AppMatane");
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle("App Decouverte Matane");
-        builder.setContentText("Vous êtes à "+ distance + "m" +" de " + emplacement.getNom());
-        builder.setVibrate(new long[]{200,200,80,80,80,80,80,80});
-        Intent intent = new Intent(getActivity(),VueSlideMenu.class);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
-        stackBuilder.addParentStack(VueSlideMenu.class);
-        stackBuilder.addNextIntent(intent);
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(pendingIntent);
-        NotificationManager notificationManager = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(emplacement.getId(),builder.build());
+        boolean alarme = sharedPreferences.getBoolean("alarme", true);
+        if(alarme) {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "AppMatane");
+            builder.setSmallIcon(R.mipmap.ic_launcher);
+            builder.setContentTitle("App Decouverte Matane");
+            builder.setContentText("Vous êtes à "+ distance + "m" +" de " + emplacement.getNom());
+            builder.setVibrate(new long[]{200,200,80,80,80,80,80,80});
+            Intent intent = new Intent(getActivity(),VueSlideMenu.class);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
+            stackBuilder.addParentStack(VueSlideMenu.class);
+            stackBuilder.addNextIntent(intent);
+            PendingIntent pendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setContentIntent(pendingIntent);
+            NotificationManager notificationManager = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(emplacement.getId(),builder.build());
+        }
     }
 
 

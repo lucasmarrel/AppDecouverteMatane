@@ -121,12 +121,12 @@ public class VueSlideMenu extends AppCompatActivity
 
         } else if (id == R.id.nav_scan) {
             ScanFragment scanFragment = new ScanFragment();
-            FragmentManager manager = getSupportFragmentManager();
+            android.app.FragmentManager manager = getFragmentManager();
             manager.beginTransaction().replace(R.id.mainLayout, scanFragment).commit();
 
         } else if (id == R.id.nav_pictures) {
             GalerieFragment galerieFragment = new GalerieFragment();
-            FragmentManager manager = getSupportFragmentManager();
+            android.app.FragmentManager manager = getFragmentManager();
             manager.beginTransaction().replace(R.id.mainLayout, galerieFragment).commit();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -135,11 +135,13 @@ public class VueSlideMenu extends AppCompatActivity
 
         } else if (id== R.id.nav_gestion_emplacements){
             gestionEmplacementsFragment = new GestionEmplacementsFragment();
-            FragmentManager manager = getSupportFragmentManager();
+            android.app.FragmentManager manager = getFragmentManager();
             manager.beginTransaction().replace(R.id.mainLayout, gestionEmplacementsFragment).commit();
         }
         else if (id == R.id.nav_parametres) {
-
+            SettingsFragment settingsFragment = new SettingsFragment();
+            android.app.FragmentManager manager = getFragmentManager();
+            manager.beginTransaction().replace(R.id.mainLayout, settingsFragment).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -91,8 +91,9 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         boolean sat = sharedPreferences.getBoolean("satellite", true);
+
         if(sat){
-            mMap.setMapType(googleMap.MAP_TYPE_SATELLITE);
+            mMap.setMapType(googleMap.MAP_TYPE_HYBRID);
         }
         else {
             mMap.setMapType(googleMap.MAP_TYPE_NORMAL);
@@ -263,6 +264,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback{
 
     protected void afficherAlarme(Emplacement emplacement, int distance){
         boolean alarme = sharedPreferences.getBoolean("alarme", true);
+        
         if(alarme) {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "AppMatane");
             builder.setSmallIcon(R.mipmap.ic_launcher);

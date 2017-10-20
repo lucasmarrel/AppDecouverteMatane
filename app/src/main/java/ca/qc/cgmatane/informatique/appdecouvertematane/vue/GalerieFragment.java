@@ -39,7 +39,9 @@ public class GalerieFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_galerie, container, false);
+        View view = inflater.inflate(R.layout.fragment_galerie, container, false);
+        view.setBackgroundColor(getResources().getColor(android.R.color.white));
+        return view;
     }
 
     @Override
@@ -53,7 +55,7 @@ public class GalerieFragment extends Fragment {
         }
 
         gridView = (GridView) view.findViewById(R.id.gridView);
-        ImageAdapter imageAdapter = new ImageAdapter(listeImage,getContext());
+        ImageAdapter imageAdapter = new ImageAdapter(listeImage,getActivity());
         gridView.setAdapter(imageAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

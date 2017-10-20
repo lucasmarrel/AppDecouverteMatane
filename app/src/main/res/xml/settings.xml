@@ -2,14 +2,14 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <SwitchPreference
         android:title="Vue Satellite"
-        android:summary="active/desactive la vue satellite"
+        android:summary="Active/desactive la vue satellite"
         android:key="satellite"
         android:defaultValue="false"
         />
 
     <SwitchPreference
-        android:title="notification"
-        android:summary="active/desactive les notifications"
+        android:title="Notification"
+        android:summary="Active/desactive les notifications"
         android:key="alarme"
         android:defaultValue="true"
         />

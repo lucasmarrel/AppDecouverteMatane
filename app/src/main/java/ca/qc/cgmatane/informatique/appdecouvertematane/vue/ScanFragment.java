@@ -31,8 +31,9 @@ public class ScanFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_scan, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_scan, container, false);
+        view.setBackgroundColor(getResources().getColor(android.R.color.white));
+        return view;
     }
 
     @Override

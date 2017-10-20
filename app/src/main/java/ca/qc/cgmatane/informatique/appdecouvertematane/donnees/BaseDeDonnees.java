@@ -77,7 +77,7 @@ public class BaseDeDonnees extends SQLiteOpenHelper {
             String INSERT_1 = "insert into emplacement(nom, latitude, longitude, qrCode, valide) VALUES(\"IGA\", 48.852335, -67.512314, \"appmataneempiga\", 1)";
             String INSERT_2 = "insert into emplacement(nom, latitude, longitude, qrCode, valide) VALUES(\"Cinema Gaiete\", 48.845212, -67.535702, \"appmataneempcinemagaiete\", 0)";
             String INSERT_3 = "insert into emplacement(nom, latitude, longitude, qrCode, valide) VALUES(\"Walmart\", 48.843680, -67.556263, \"appmataneempwalmart\", 1)";
-            String INSERT_4 = "insert into emplacement(nom, latitude, longitude, qrCode, valide) VALUES(\"Cégep De Matane\", 48.841380, -67.497777, \"appmataneempcegep\", 1)";
+            String INSERT_4 = "insert into emplacement(nom, latitude, longitude, qrCode, valide) VALUES(\"Cégep De Matane\", 48.841380, -67.497777, \"appmataneempcegep\", 0)";
             String INSERT_5 = "insert into emplacement(nom, latitude, longitude, qrCode, valide) VALUES(\"Polyvalente De Matane\", 48.841243, -67.508232, \"appmataneemppolyvalente\", 0)";
             String INSERT_6 = "insert into emplacement(nom, latitude, longitude, qrCode, valide) VALUES(\"Dixie Lee Matane\", 48.843063, -67.510728, \"appmataneempdixielee\", 0)";
 
